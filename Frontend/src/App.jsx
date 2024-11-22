@@ -1,23 +1,37 @@
-import React from 'react'
-import data from './Data'
+import React from "react";
+import data from "./Data";
 
 function App() {
   return (
     <div>
       <header>
-        <a href='/'>Amazon</a>
+        <a href="/">Laitonjam Collection</a>
       </header>
-      <main><h1>List Product</h1>
-      {data.products.map=(product =>(
-        <div>
-          <img src={product.image}></img>
-          <p>{product.name}</p>
-          <p>{product.price}</p>
+      <main>
+        <h1>List Product</h1>
+        <div className="products">
+          {data.products.map((product) => (
+            <div className="product" key={product.slug}>
+              <a href={`/product/${product.slug}`}>
+                <img src={product.image} alt={product.name}></img>
+              </a>
+              <div className="product-info">
+                <a href={`/product/${product.slug}`}>
+                  <p>{product.name}</p>
+                </a>
+                <a className="sa" href={`/product/${product.slug}`}>
+                  <p>
+                    <strong className="price">${product.price}</strong>
+                  </p>
+                </a>
+                <button>Add to Cart</button>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}</main>
-
+      </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
