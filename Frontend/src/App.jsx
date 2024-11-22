@@ -1,4 +1,5 @@
 import React from 'react'
+import data from './Data'
 
 function App() {
   return (
@@ -6,7 +7,15 @@ function App() {
       <header>
         <a href='/'>Amazon</a>
       </header>
-      <main>List Product</main>
+      <main><h1>List Product</h1>
+      {data.products.map=(product =>(
+        <div>
+          <img src={product.image}></img>
+          <p>{product.name}</p>
+          <p>{product.price}</p>
+        </div>
+      ))}</main>
+
     </div>
   )
 }
