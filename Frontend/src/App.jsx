@@ -1,7 +1,8 @@
 import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import HomeScreen from "./HomeScreen";
-import data from "./Data";
+import ProductScreen from "./screens/ProductScreen";
+
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<HomeScreen />} />
+            <Route path="/product/:slug" element={<ProductScreen />} />
           </Routes>
         
         </main>
