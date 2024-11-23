@@ -1,6 +1,7 @@
 import React from "react";
 import data from "./Data";
-import BrowserRouter from'react-router-dom';
+import BrowserRouter, { Route, Routes } from'react-router-dom';
+import HomeScreen from "./HomeScreen";
 
 function App() {
   return (
@@ -10,6 +11,8 @@ function App() {
         <a href="/">Laitonjam Collection</a>
       </header>
       <main>
+        <Routes>
+          <Route path="/" element={<HomeScreen/>}></Route>
         <h1>List Product</h1>
         <div className="products">
           {data.products.map((product) => (
@@ -31,6 +34,7 @@ function App() {
             </div>
           ))}
         </div>
+        </Routes>
       </main>
     </div>
     </BrowserRouter>
