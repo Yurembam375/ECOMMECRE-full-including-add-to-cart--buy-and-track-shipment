@@ -1,8 +1,10 @@
 import React from "react";
 import data from "./Data";
+import BrowserRouter from'react-router-dom';
 
 function App() {
   return (
+    <BrowserRouter>
     <div>
       <header>
         <a href="/">Laitonjam Collection</a>
@@ -31,6 +33,7 @@ function App() {
         </div>
       </main>
     </div>
+    </BrowserRouter>
   );
 }
 
