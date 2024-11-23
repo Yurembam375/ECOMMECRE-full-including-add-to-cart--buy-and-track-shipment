@@ -1,10 +1,15 @@
-import express from "express";
-import data from "./data.js";
+import express from 'express';
+import cors from 'cors';
+import data from './data.js';
 
 const app = express();
 
-app.get('/api/products',(req, res) => {
-  res.send(data.products);
+// Enable CORS for all routes
+app.use(cors());
+
+// API endpoint to get products
+app.get('/api/products', (req, res) => {
+  res.json(data.products);
 });
 
 const port = process.env.PORT || 4000;
