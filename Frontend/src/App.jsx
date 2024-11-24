@@ -9,7 +9,7 @@ function App() {
     <BrowserRouter>
       <div>
         <header>
-          <a href="/">Laitonjam Collection</a>
+          <a href="/">Laitonjams Collection</a>
         </header>
         <main>
           <Routes>
@@ -18,6 +18,11 @@ function App() {
           </Routes>
         
         </main>
+        <footer>
+          <div>
+            All rights reserved.
+          </div>
+        </footer>
       </div>
     </BrowserRouter>
   );
