@@ -19,7 +19,7 @@ function App() {
         
         </main>
         <footer>
-          <div>
+          <div className="text-center">
             All rights reserved.
           </div>
         </footer>
