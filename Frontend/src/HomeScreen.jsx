@@ -1,17 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-function HomeScreen() {
-  const [products, setProducts] = useState([]); // Corrected state destructuring
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "FETCH_REQUEST":
+      return { ...state, loading: true };
+    case "FETCH_SUCCESS":
+      return { ...state, products: action.payload, loading: false };
+    case "FETC_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 
+function HomeScreen() {
+  //  const [products, setProducts] = useState([]); //
+  const [{ loading, error, products }, dispatch] = useReducer(reducer, {
+    products: [],
+    loading: true,
+    error: "",
+  });
   useEffect(() => {
     const fetchData = async () => {
+      dispatch({ type: "FETCH_REQUEST" });
       try {
         const result = await axios.get("http://localhost:4000/api/products");
-        setProducts(result.data);
+        dispatch({ type: "FETCH_SUCCESS", payload: result.data });
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error({ type: "FETCH_FAIL", payload: error });
       }
     };
     fetchData();
@@ -19,7 +37,7 @@ function HomeScreen() {
 
   return (
     <div>
-      <h1>List of Products Of Sana COllectio</h1>
+      <h1>List of Products </h1>
       <div className="products">
         {products.map((product) => (
           <div className="product" key={product.slug}>
