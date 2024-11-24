@@ -7,7 +7,7 @@ import ProductScreen from "./screens/ProductScreen";
 function App() {
   return (
     <BrowserRouter>
-      <div>
+      <div className="flex flex-col ">
         <header>
           <a href="/">Laitonjam Collection</a>
         </header>

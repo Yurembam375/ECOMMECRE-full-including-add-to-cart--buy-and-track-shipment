@@ -38,7 +38,7 @@ function HomeScreen() {
   return (
     <div>
       <h1>List of Products </h1>
-      <div className="products">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
         {products.map((product) => (
           <div className="product" key={product.slug}>
             <Link to={`/product/${product.slug}`}>
