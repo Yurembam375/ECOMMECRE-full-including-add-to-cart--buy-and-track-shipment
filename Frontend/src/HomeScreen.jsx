@@ -19,7 +19,7 @@ function HomeScreen() {
 
   return (
     <div>
-      <h1>List of Products</h1>
+      <h1>List of Products Of Sana COllectio</h1>
       <div className="products">
         {products.map((product) => (
           <div className="product" key={product.slug}>
