@@ -9,7 +9,7 @@ function App() {
     <BrowserRouter>
       <div>
         <header>
-          <a href="/">Laitonjams Collection</a>
+          <a href="/">Laitonjam Collection</a>
         </header>
         <main>
           <Routes>
