@@ -38,10 +38,12 @@ function ProductScreen() {
     };
     fetchData();
   }, [slug]);
-  return (
-    <div>
-      <h1>{slug}</h1>
-    </div>
+  return loading ? (
+    <div>Loading...</div>
+  ) : error ? (
+    <div>{error}</div>
+  ) : (
+    <div>{product.name}</div>
   );
 }
 
