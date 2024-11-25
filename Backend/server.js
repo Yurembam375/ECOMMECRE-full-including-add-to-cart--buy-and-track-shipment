@@ -1,6 +1,6 @@
-import express from 'express';
-import cors from 'cors';
-import data from './data.js';
+import express from "express";
+import cors from "cors";
+import data from "./data.js";
 
 const app = express();
 
@@ -8,12 +8,19 @@ const app = express();
 app.use(cors());
 
 // API endpoint to get products
-app.get('/api/products', (req, res) => {
+app.get("/api/products", (req, res) => {
   res.json(data.products);
 });
-//for get by using slug like use param in frontend
-app.get('/api/products', (req, res) => {
-  res.json(data.products);
+
+// API endpoint to get a product by its slug
+app.get("/api/products/slug/:slug", (req, res) => {
+  const product = data.products.find((x) => x.slug === req.params.slug);
+
+  if (product) {
+    res.send(product);
+  } else {
+    res.status(404).send({ message: "Product Not Found" });
+  }
 });
 
 const port = process.env.PORT || 4000;
