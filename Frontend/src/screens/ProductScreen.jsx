@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useReducer } from "react";
 import { useEffect } from "react";
-
+import Rating from './Rating';
 const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
