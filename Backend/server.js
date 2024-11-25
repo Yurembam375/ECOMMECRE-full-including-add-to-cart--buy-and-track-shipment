@@ -11,6 +11,10 @@ app.use(cors());
 app.get('/api/products', (req, res) => {
   res.json(data.products);
 });
+//for get by using slug like use param in frontend
+app.get('/api/products', (req, res) => {
+  res.json(data.products);
+});
 
 const port = process.env.PORT || 4000;
 
