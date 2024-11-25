@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useReducer } from "react";
 import { useEffect } from "react";
-import Rating from './Rating';
+import Rating from "../components/Rating";
 const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -44,13 +44,41 @@ function ProductScreen() {
   ) : error ? (
     <div>{error}</div>
   ) : (
-    <div>
-      <div className="gird grid-cols-3">
-        <img className="h-[500px]" src={product.image} alt={product.name}></img>
-        <h1>{product.name}</h1>
-        <Rating rating={product.rating} numReviews={product.numReviews} />
+    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="grid grid-cols-1 md:grid-cols-2   ">
+      {/* Product Image */}
+      <div className="flex justify-center">
+        <img className="h-[500px] object-contain" src={product.image} alt={product.name} />
+      </div>
+  
+      {/* Product Details */}
+      <div className="space-y-6">
+        <ul>
+          <li>
+            <h1 className="text-3xl font-bold text-gray-900 border-b-2 border-black-500 mb-4 mr-3 ">{product.name}</h1>
+          </li>
+  
+          <li>
+            <div className="flex items-center space-x-4 border-b-2 border-black-500 mb-4 ">
+              <Rating rating={product.rating} numReviews={product.numReviews} />
+            </div>
+          </li>
+          <li>
+            <div className="flex items-center space-x-4 border-b-2 border-black-500 mb-4 ">
+           <p className=" text-center text-green-500 font-bold">Price:{product.price}</p>
+            </div>
+          </li>
+          <li>
+            <p className="text-lg text-gray-700 border-b-2 border-black-500 mb-4 ">
+              <strong>Description: </strong>{product.description}
+            </p>
+          </li>
+        </ul>
       </div>
     </div>
+  </div>
+  
+  
   );
 }
 
