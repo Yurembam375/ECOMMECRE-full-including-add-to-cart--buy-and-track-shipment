@@ -105,7 +105,7 @@ function ProductScreen() {
               {/* Check stock availability */}
               Status:{" "}
               {product.countInStock > 0 ? (
-                <span className="text-green-500">In Stock</span>
+                <span className="text-ye-500">In Stock</span>
               ) : (
                 <span className="text-red-500">Unavailable</span>
               )}
