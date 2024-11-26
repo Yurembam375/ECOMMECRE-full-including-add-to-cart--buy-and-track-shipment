@@ -97,7 +97,7 @@ function ProductScreen() {
         <div className="border-2 border-yellow-400 rounded-lg p-2 mt-2 w-[200px] ">
           <ul>
             <li>
-              <p className="text-green-600 font-bold">
+              <p className="text-green-600 font-bo">
                 Price: <span>${product.price}</span>
               </p>
             </li>
@@ -107,7 +107,7 @@ function ProductScreen() {
               {product.countInStock > 0 ? (
                 <span className="text-green-500">In Stock</span>
               ) : (
-                <span className="text--500">Unavailable</span>
+                <span className="text-red-500">Unavailable</span>
               )}
             </li>
           </ul>
