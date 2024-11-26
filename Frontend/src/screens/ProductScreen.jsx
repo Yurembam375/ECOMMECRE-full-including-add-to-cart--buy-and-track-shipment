@@ -94,10 +94,10 @@ function ProductScreen() {
         </div>
 
         {/* Product Status */}
-        <div>
+        <div className="border-2 border-yellow-400 rounded-lg p-2 mt-2 w-[200px] ">
           <ul>
             <li>
-              <p>
+              <p className="text-green-600 font-bold">
                 Price: <span>${product.price}</span>
               </p>
             </li>
