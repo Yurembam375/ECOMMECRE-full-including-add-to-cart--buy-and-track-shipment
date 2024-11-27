@@ -4,6 +4,8 @@ import { useReducer, useEffect } from "react";
 import axios from "axios";
 import Rating from "../components/Rating";
 import { Helmet } from "react-helmet-async";
+import Loading from "../components/Loading";
+import Message from "../components/Message";
 
 // Reducer function to handle loading, success, and error states
 const reducer = (state, action) => {
@@ -44,9 +46,9 @@ function ProductScreen() {
   }, [slug]);
 
   return loading ? (
-    <div>Loading...</div>
+    <Loading />
   ) : error ? (
-    <div>{error}</div>
+    <Message variant="error">{error}</Message>
   ) : (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <Helmet>
