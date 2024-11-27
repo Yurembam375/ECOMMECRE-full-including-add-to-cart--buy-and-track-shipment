@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useContext, useReducer, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useReducer, useEffect } from "react";
 import axios from "axios";
 import Rating from "../components/Rating";
 import { Helmet } from "react-helmet-async";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
-import { getError } from "./util";
+import { getError } from "./util.jsx"; // Assuming the correct import path for getError
+import { Store } from "../Store.jsx";
 
 // Reducer function to handle loading, success, and error states
 const reducer = (state, action) => {
@@ -25,7 +25,7 @@ const reducer = (state, action) => {
 function ProductScreen() {
   const { slug } = useParams(); // Destructure slug from params
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
-    product: [],
+    product: {},  // Correct initialization of product as an object
     loading: true,
     error: "",
   });
@@ -45,6 +45,15 @@ function ProductScreen() {
     };
     fetchData();
   }, [slug]);
+
+  const { state, dispatch: cxtDispatch } = useContext(Store);
+  
+  const addToCartHandler = () => {
+    cxtDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...product, quantity: 1 }  // Add quantity as well to the cart payload
+    });
+  };
 
   return loading ? (
     <Loading />
@@ -111,16 +120,23 @@ function ProductScreen() {
               <p>
                 <strong>Status: </strong>
                 {product.countInStock > 0 ? (
-                  <span className="text-white bg-green-700 rounded-md p-1 mt-6">In Stock</span>
+                  <span className="text-white bg-green-700 rounded-md p-1 mt-6">
+                    In Stock
+                  </span>
                 ) : (
-                  <span className="text-white bg-red-700 rounded-md p-1 mt-6">Unavailable</span>
+                  <span className="text-white bg-red-700 rounded-md p-1 mt-6">
+                    Unavailable
+                  </span>
                 )}
               </p>
             </li>
           </ul>
           {product.countInStock > 0 && (
             <div className="mt-4">
-              <button className="w-full bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600 transition duration-200">
+              <button
+                onClick={addToCartHandler}
+                className="w-full bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600 transition duration-200"
+              >
                 Add to Cart
               </button>
             </div>
