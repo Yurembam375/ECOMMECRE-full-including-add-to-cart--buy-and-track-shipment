@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from 'react';
 import axios from 'axios';
 import Product from './components/Product';
+import { Helmet } from 'react-helmet-async';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -37,6 +38,11 @@ function HomeScreen() {
 
   return (
     <div>
+      <div>
+        <Helmet>
+          <title>Laitonjam Collection</title>
+        </Helmet>
+      </div>
       <h1>List of Products</h1>
       {loading ? (
         <div>Loading...</div>
