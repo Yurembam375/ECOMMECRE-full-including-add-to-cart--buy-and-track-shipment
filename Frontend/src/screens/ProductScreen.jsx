@@ -6,6 +6,7 @@ import Rating from "../components/Rating";
 import { Helmet } from "react-helmet-async";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
+import { getError } from "./util";
 
 // Reducer function to handle loading, success, and error states
 const reducer = (state, action) => {
@@ -39,7 +40,7 @@ function ProductScreen() {
         );
         dispatch({ type: "FETCH_SUCCESS", payload: result.data });
       } catch (error) {
-        dispatch({ type: "FETCH_FAIL", payload: error.message });
+        dispatch({ type: "FETCH_FAIL", payload: getError(error) });
       }
     };
     fetchData();
