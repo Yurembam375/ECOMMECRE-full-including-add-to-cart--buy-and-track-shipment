@@ -5,6 +5,7 @@ import axios from "axios";
 import { useReducer } from "react";
 import { useEffect } from "react";
 import Rating from "../components/Rating";
+import { Helmet } from "react-helmet-async";
 
 // Reducer function to handle loading, success, and error states
 const reducer = (state, action) => {
@@ -64,9 +65,12 @@ function ProductScreen() {
         <div className="space-y-6">
           <ul>
             <li>
+              <Helmet>
               <h1 className="text-3xl font-bold text-gray-900 border-b-2 border-black-500 mb-4 mr-3">
                 {product.name}
               </h1>
+              </Helmet>
+            
             </li>
 
             <li>
