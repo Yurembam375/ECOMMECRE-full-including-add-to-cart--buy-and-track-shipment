@@ -50,7 +50,7 @@ function ProductScreen() {
     <div>{error}</div>
   ) : (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image */}
         <div className="flex justify-center">
           <img
@@ -94,24 +94,35 @@ function ProductScreen() {
         </div>
 
         {/* Product Status */}
-        <div className="border-2 border-yellow-400 rounded-lg p-2 mt-2 w-[200px] ">
+        <div className="border-2 border-grey-400 rounded-lg p-4 w-[200px]">
           <ul>
             <li>
-              <p className="text-green-600 font-bo">
+              <p className="text-green-600 font-bold mb-2">
                 Price: <span>${product.price}</span>
               </p>
             </li>
             <li>
-              {/* Check stock availability */}
-              Status:{" "}
-              {product.countInStock > 0 ? (
-                <span className="text-green-500">In Stock</span>
-              ) : (
-                <span className="text-red-500">Unavailable</span>
-              )}
+              <p>
+                <strong>Status: </strong>
+                {product.countInStock > 0 ? (
+                  <span className="text-white bg-green-700 rounded-md p-1 mt-6">In Stock</span>
+                ) : (
+                  <span className="text-red-500">Unavailable</span>
+                )}
+              </p>
             </li>
           </ul>
+          {product.countInStock > 0 && (
+          <div className="mt-4">
+            <button className="w-full bg-yellow-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+              Add to Cart
+            </button>
+          </div>
+        )}
         </div>
+
+        {/* Add to Cart Button */}
+      
       </div>
     </div>
   );
