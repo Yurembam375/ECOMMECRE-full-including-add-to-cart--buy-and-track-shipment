@@ -10,8 +10,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="flex flex-col min-h-screen">
-        <header className="bg-gray-800 text-white p-4">
+      <div className="flex flex-col min-h-screen ">
+        <header className="bg-gray-800 text-white p-4 sticky top-0 ">
           {/* Link for Home */}
           <Link to="/" className="text-2xl font-bold">
             Laitonjam Collection
@@ -25,7 +25,10 @@ function App() {
             >
               Cart{" "}
               {cart.cartItems.length > 0 && (
-                <span className="font-bold">({cart.cartItems.length})</span>
+               <span className="font-bold bg-red-700 text-white rounded-full px-3 py-1 text-sm w-auto min-w-[24px] text-center">
+               {cart.cartItems.length}
+             </span>
+             
               )}
             </Link>
           </div>
