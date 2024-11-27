@@ -107,7 +107,7 @@ function ProductScreen() {
                 {product.countInStock > 0 ? (
                   <span className="text-white bg-green-700 rounded-md p-1 mt-6">In Stock</span>
                 ) : (
-                  <span className="text-red-500">Unavailable</span>
+                  <span className="text-white bg-red-700 rounded-md p-1 mt-6">Unavailable</span>
                 )}
               </p>
             </li>
