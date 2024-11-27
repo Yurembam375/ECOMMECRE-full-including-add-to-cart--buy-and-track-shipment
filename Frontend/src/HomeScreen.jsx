@@ -40,7 +40,7 @@ function HomeScreen() {
     <div>
       <div>
         <Helmet>
-          <title>Laitonjam Collection</title>
+          <title>Laitonjam Collection </title>
         </Helmet>
       </div>
       <h1>List of Products</h1>
