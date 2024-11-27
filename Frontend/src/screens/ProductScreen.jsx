@@ -1,9 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useReducer, useEffect } from "react";
 import axios from "axios";
-import { useReducer } from "react";
-import { useEffect } from "react";
 import Rating from "../components/Rating";
 import { Helmet } from "react-helmet-async";
 
@@ -51,6 +49,10 @@ function ProductScreen() {
     <div>{error}</div>
   ) : (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      <Helmet>
+        <title>{product.name}</title>
+        <meta name="description" content={product.description} />
+      </Helmet>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image */}
         <div className="flex justify-center">
@@ -65,16 +67,13 @@ function ProductScreen() {
         <div className="space-y-6">
           <ul>
             <li>
-              <Helmet>
-              <h1 className="text-3xl font-bold text-gray-900 border-b-2 border-black-500 mb-4 mr-3">
+              <h1 className="text-3xl font-bold text-gray-900 border-b-2 border-gray-500 mb-4 mr-3">
                 {product.name}
               </h1>
-              </Helmet>
-            
             </li>
 
             <li>
-              <div className="flex items-center space-x-4 border-b-2 border-black-500 mb-4">
+              <div className="flex items-center space-x-4 border-b-2 border-gray-500 mb-4">
                 <Rating
                   rating={product.rating}
                   numReviews={product.numReviews}
@@ -82,14 +81,14 @@ function ProductScreen() {
               </div>
             </li>
             <li>
-              <div className="flex items-center space-x-4 border-b-2 border-black-500 mb-4">
+              <div className="flex items-center space-x-4 border-b-2 border-gray-500 mb-4">
                 <p className="text-center text-green-500 font-bold">
                   Price: ${product.price}
                 </p>
               </div>
             </li>
             <li>
-              <p className="text-lg text-gray-700 border-b-2 border-black-500 mb-4">
+              <p className="text-lg text-gray-700 border-b-2 border-gray-500 mb-4">
                 <strong>Description: </strong>
                 {product.description}
               </p>
@@ -98,7 +97,7 @@ function ProductScreen() {
         </div>
 
         {/* Product Status */}
-        <div className="border-2 border-grey-400 rounded-lg p-4 w-[200px]">
+        <div className="border-2 border-gray-400 rounded-lg p-4 w-[200px]">
           <ul>
             <li>
               <p className="text-green-600 font-bold mb-2">
@@ -117,16 +116,13 @@ function ProductScreen() {
             </li>
           </ul>
           {product.countInStock > 0 && (
-          <div className="mt-4">
-            <button className="w-full bg-yellow-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
-              Add to Cart
-            </button>
-          </div>
-        )}
+            <div className="mt-4">
+              <button className="w-full bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600 transition duration-200">
+                Add to Cart
+              </button>
+            </div>
+          )}
         </div>
-
-        {/* Add to Cart Button */}
-      
       </div>
     </div>
   );
