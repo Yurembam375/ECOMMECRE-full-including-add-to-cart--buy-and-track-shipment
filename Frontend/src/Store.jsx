@@ -15,6 +15,10 @@ function reducer(state, action) {
   switch (action.type) {
     case "CART_ADD_ITEM":
       // Add item to the cart
+      const newItem =action.payload;
+      const existItem =state.cart.cartItems.find(
+      (item)=>item._id ===newItem._id
+      );
       return {
         ...state,
         cart: {
