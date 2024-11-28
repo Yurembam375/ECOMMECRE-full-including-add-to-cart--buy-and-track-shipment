@@ -24,14 +24,8 @@ function reducer(state, action) {
             item._id === existItem.id ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
-        return{...state,cart:{ ...state.cart,cartItems}}
-      return {
-        ...state,
-        cart: {
-          ...state.cart,
-          cartItems: [...state.cart.cartItems, action.payload], // Add payload (item) to cart
-        },
-      };
+      return { ...state, cart: { ...state.cart, cartItems } };
+
     default:
       return state;
   }
