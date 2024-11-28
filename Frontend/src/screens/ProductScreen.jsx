@@ -5,10 +5,10 @@ import Rating from "../components/Rating";
 import { Helmet } from "react-helmet-async";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
-import { getError } from "./util.jsx"; // Assuming the correct import path for getError
-import { Store } from "../Store.jsx";
+import { getError } from "./util.jsx"; // Utility function to handle errors
+import { Store } from "../Store.jsx"; // Context to manage global state
 
-// Reducer function to handle loading, success, and error states
+// Reducer function to manage loading, success, and error states
 const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -23,21 +23,19 @@ const reducer = (state, action) => {
 };
 
 function ProductScreen() {
-  const { slug } = useParams(); // Destructure slug from params
+  const { slug } = useParams(); // Extract product slug from URL params
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
-    product: {}, // Correct initialization of product as an object
+    product: {}, // Initialize product as an empty object
     loading: true,
     error: "",
   });
 
-  // Fetch product data based on slug
+  // Fetch product details when slug changes
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: "FETCH_REQUEST" });
       try {
-        const result = await axios.get(
-          `http://localhost:4000/api/products/slug/${slug}`
-        );
+        const result = await axios.get(`http://localhost:4000/api/products/slug/${slug}`);
         dispatch({ type: "FETCH_SUCCESS", payload: result.data });
       } catch (error) {
         dispatch({ type: "FETCH_FAIL", payload: getError(error) });
@@ -47,24 +45,28 @@ function ProductScreen() {
   }, [slug]);
 
   const { state, dispatch: cxtDispatch } = useContext(Store);
-  const { cart } = state;
+  const { cart } = state; // Access cart data from global state
 
+  // Handler to add product to the cart
   const addToCartHandler = async () => {
     const existItem = cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(
-      `http://localhost:4000/api/products/${product.id}`
-    );
-if (data.countInStock<quantity){
-  window.alert('Sorry , product is out of stock');
-  return; 
-}
+
+    // Fetch the product data using the correct _id (not id)
+    const { data } = await axios.get(`http://localhost:4000/api/products/${product._id}`);
+
+    if (data.countInStock < quantity) {
+      window.alert("Sorry, product is out of stock");
+      return;
+    }
+
     cxtDispatch({
       type: "CART_ADD_ITEM",
-      payload: { ...product, quantity: 1 }, // Add quantity as well to the cart payload
+      payload: { ...product, quantity }, // Add product with selected quantity to cart
     });
   };
 
+  // Loading, error, and product display sections
   return loading ? (
     <Loading />
   ) : error ? (
@@ -75,33 +77,28 @@ if (data.countInStock<quantity){
         <title>{product.name}</title>
         <meta name="description" content={product.description} />
       </Helmet>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image */}
         <div className="flex justify-center">
-          <img
-            className="h-[500px] object-contain"
-            src={product.image}
-            alt={product.name}
-          />
+          <img className="h-[500px] object-contain" src={product.image} alt={product.name} />
         </div>
 
         {/* Product Details */}
         <div className="space-y-6">
           <ul>
             <li>
-              <h1 className="text-3xl font-bold text-gray-900 border-b-2 border-gray-500 mb-4 mr-3">
+              <h1 className="text-3xl font-bold text-gray-900 border-b-2 border-gray-500 mb-4">
                 {product.name}
               </h1>
             </li>
 
             <li>
               <div className="flex items-center space-x-4 border-b-2 border-gray-500 mb-4">
-                <Rating
-                  rating={product.rating}
-                  numReviews={product.numReviews}
-                />
+                <Rating rating={product.rating} numReviews={product.numReviews} />
               </div>
             </li>
+
             <li>
               <div className="flex items-center space-x-4 border-b-2 border-gray-500 mb-4">
                 <p className="text-center text-green-500 font-bold">
@@ -109,6 +106,7 @@ if (data.countInStock<quantity){
                 </p>
               </div>
             </li>
+
             <li>
               <p className="text-lg text-gray-700 border-b-2 border-gray-500 mb-4">
                 <strong>Description: </strong>
@@ -118,7 +116,7 @@ if (data.countInStock<quantity){
           </ul>
         </div>
 
-        {/* Product Status */}
+        {/* Product Availability and Add to Cart */}
         <div className="border-2 border-gray-400 rounded-lg p-4 w-[200px]">
           <ul>
             <li>
@@ -141,6 +139,8 @@ if (data.countInStock<quantity){
               </p>
             </li>
           </ul>
+
+          {/* Button to add product to cart */}
           {product.countInStock > 0 && (
             <div className="mt-4">
               <button

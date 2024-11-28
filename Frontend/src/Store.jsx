@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer } from 'react';
 
 // Create context for the global state
 export const Store = createContext();
@@ -6,22 +6,19 @@ export const Store = createContext();
 // Initial state for the store
 const initialState = {
   cart: {
-    cartItems: [],
+    cartItems: [], // Array to hold the items in the cart
   },
 };
 
-// Reducer function to handle actions
+// Reducer function to handle actions related to the cart
 function reducer(state, action) {
   switch (action.type) {
-    case "CART_ADD_ITEM":
-      // Add item to the cart
+    case 'CART_ADD_ITEM':
       const newItem = action.payload;
-      const existItem = state.cart.cartItems.find(
-        (item) => item._id === newItem._id
-      );
+      const existItem = state.cart.cartItems.find((item) => item._id === newItem._id);
       const cartItems = existItem
         ? state.cart.cartItems.map((item) =>
-            item._id === existItem.id ? newItem : item
+            item._id === existItem._id ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
       return { ...state, cart: { ...state.cart, cartItems } };
@@ -32,8 +29,8 @@ function reducer(state, action) {
 }
 
 // StoreProvider to wrap the app and provide global state
-export function StoreProvider(props) {
-  const [state, dispatch] = useReducer(reducer, initialState); // useReducer to manage state
-  const value = { state, dispatch }; // Value to pass down to the context
-  return <Store.Provider value={value}>{props.children}</Store.Provider>;
+export function StoreProvider({ children }) {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const value = { state, dispatch };
+  return <Store.Provider value={value}>{children}</Store.Provider>;
 }
