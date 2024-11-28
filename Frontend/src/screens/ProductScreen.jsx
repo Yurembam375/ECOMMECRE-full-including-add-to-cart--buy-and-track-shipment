@@ -25,7 +25,7 @@ const reducer = (state, action) => {
 function ProductScreen() {
   const { slug } = useParams(); // Destructure slug from params
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
-    product: {},  // Correct initialization of product as an object
+    product: {}, // Correct initialization of product as an object
     loading: true,
     error: "",
   });
@@ -47,11 +47,21 @@ function ProductScreen() {
   }, [slug]);
 
   const { state, dispatch: cxtDispatch } = useContext(Store);
-  
-  const addToCartHandler = () => {
+  const { cart } = state;
+
+  const addToCartHandler = async () => {
+    const existItem = cart.cartItems.find((x) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(
+      `http://localhost:4000/api/products/${product.id}`
+    );
+if (data.countInStock<quantity){
+  window.alert('Sorry , product is out of stock');
+  return; 
+}
     cxtDispatch({
-      type: 'CART_ADD_ITEM',
-      payload: { ...product, quantity: 1 }  // Add quantity as well to the cart payload
+      type: "CART_ADD_ITEM",
+      payload: { ...product, quantity: 1 }, // Add quantity as well to the cart payload
     });
   };
 
