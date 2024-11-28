@@ -1,5 +1,5 @@
 import React, { useContext, useReducer, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Rating from "../components/Rating";
 import { Helmet } from "react-helmet-async";
@@ -23,6 +23,7 @@ const reducer = (state, action) => {
 };
 
 function ProductScreen() {
+  const navigate=useNavigate();
   const { slug } = useParams(); // Extract product slug from URL params
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
     product: {}, // Initialize product as an empty object
@@ -64,6 +65,7 @@ function ProductScreen() {
       type: "CART_ADD_ITEM",
       payload: { ...product, quantity }, // Add product with selected quantity to cart
     });
+    navigate('/cart')
   };
 
   // Loading, error, and product display sections

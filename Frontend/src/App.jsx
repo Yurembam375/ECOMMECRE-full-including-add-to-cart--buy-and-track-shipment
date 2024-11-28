@@ -3,6 +3,7 @@ import { Route, Routes, BrowserRouter, Link } from 'react-router-dom';
 import HomeScreen from './HomeScreen'; // Assuming you have a HomeScreen component
 import ProductScreen from './screens/ProductScreen';
 import { Store } from './Store'; // Store context for cart
+import CartScreen from './screens/CartScreen';
 
 function App() {
   const { state } = useContext(Store);
@@ -34,6 +35,7 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<HomeScreen />} />
+            <Route path='/cart' element={<CartScreen/>}/>
             <Route path="/product/:slug" element={<ProductScreen />} />
           </Routes>
         </main>
