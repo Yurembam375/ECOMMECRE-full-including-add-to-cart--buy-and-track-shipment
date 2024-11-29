@@ -3,16 +3,27 @@ import { Store } from "../Store";
 import { Helmet } from "react-helmet-async";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function CartScreen() {
-  const { state, dispatch } = useContext(Store);
+  const { state, dispatch:ctxDispatch } = useContext(Store);
   const {
     cart: { cartItems },
   } = state;
-
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
+  
+    if (data.countInStock < quantity) {
+      window.alert("Sorry, product is out of stock");
+      return;
+    }
+  
+    ctxDispatch({
+      type: "CART_ADD_ITEM",
+      payload: { ...item, quantity }, // Add product with selected quantity to cart
+    });
   };
+  
   return (
     <>
       <div>
