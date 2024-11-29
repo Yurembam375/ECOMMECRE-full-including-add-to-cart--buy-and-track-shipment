@@ -29,7 +29,7 @@ function CartScreen() {
       payload:  item , // Add product with selected quantity to cart
     });
   }
-  
+
   return (
     <>
       <div>
@@ -102,6 +102,7 @@ function CartScreen() {
             </h3>
             <div>
               <button
+              onClick={checkOutHandler}
                 type="button"
                 disabled={cartItems.length === 0}
                 className="mt-2 py-2 px-4 bg-blue-500 text-white rounded-md disabled:bg-gray-300"
