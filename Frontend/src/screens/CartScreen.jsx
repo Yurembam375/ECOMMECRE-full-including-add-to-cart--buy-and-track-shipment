@@ -10,6 +10,9 @@ function CartScreen() {
     cart: { cartItems },
   } = state;
 
+  const updateCartHandler = async (item, quantity) => {
+    const { data } = await axios.get(`/api/products/${item._id}`);
+  };
   return (
     <>
       <div>
@@ -52,7 +55,7 @@ function CartScreen() {
               </div>
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={()=>updateCartHandler(item,item.quantity-1)}
+                  onClick={() => updateCartHandler(item, item.quantity - 1)}
                   disabled={item.quantity === 1}
                   className="disabled:opacity-50 p-2 bg-gray-200 rounded-full text-sm"
                 >
@@ -60,7 +63,7 @@ function CartScreen() {
                 </button>
                 <span className="text-sm">{item.quantity}</span>
                 <button
-                onClick={()=>updateCartHandler(item,item.quantity+1)}
+                  onClick={() => updateCartHandler(item, item.quantity + 1)}
                   disabled={item.quantity === item.countInStock}
                   className="disabled:opacity-50 p-2 bg-gray-200 rounded-full text-sm"
                 >
@@ -75,19 +78,18 @@ function CartScreen() {
           ))}
           <div className="mt-4 text-right font-semibold">
             <h3>
-              Total ({cartItems.reduce((a,c)=>a+c.quantity,0)} {''}
-              items) : ${cartItems.reduce((a,c)=>a+c.price *c.quantity,0)}
+              Total ({cartItems.reduce((a, c) => a + c.quantity, 0)} {""}
+              items) : $
+              {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
             </h3>
             <div>
-            
-                <button
-                  type="button"
-                  disabled={cartItems.length === 0}
-                  className="mt-2 py-2 px-4 bg-blue-500 text-white rounded-md disabled:bg-gray-300"
-                >
-                  Proceed to Checkout
-                </button>
-              
+              <button
+                type="button"
+                disabled={cartItems.length === 0}
+                className="mt-2 py-2 px-4 bg-blue-500 text-white rounded-md disabled:bg-gray-300"
+              >
+                Proceed to Checkout
+              </button>
             </div>
           </div>
         </div>
