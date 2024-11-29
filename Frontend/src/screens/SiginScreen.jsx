@@ -7,7 +7,7 @@ function SignInScreen() {
   const redirectInUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectInUrl ? redirectInUrl : "/";
 
-  // State to manage email and password inputs
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
