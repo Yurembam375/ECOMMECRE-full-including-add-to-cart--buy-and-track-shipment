@@ -23,6 +23,12 @@ function CartScreen() {
       payload: { ...item, quantity }, // Add product with selected quantity to cart
     });
   };
+  const removeItemHandler = (item) => {
+    ctxDispatch({
+      type: "CART_REMOVE_ITEM",
+      payload:  item , // Add product with selected quantity to cart
+    });
+  }
   
   return (
     <>
@@ -82,7 +88,8 @@ function CartScreen() {
                 </button>
               </div>
               <div className="w-24 text-right text-sm">${item.price}</div>
-              <button className="text-red-500 p-2 hover:bg-gray-200 rounded-full text-sm">
+              <button className="text-red-500 p-2 hover:bg-gray-200 rounded-full text-sm"
+              onClick={()=>removeItemHandler(item)}>
                 <i className="fas fa-trash"></i>
               </button>
             </div>
