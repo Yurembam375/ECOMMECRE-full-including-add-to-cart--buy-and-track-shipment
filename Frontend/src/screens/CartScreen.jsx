@@ -4,8 +4,9 @@ import { Helmet } from "react-helmet-async";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 function CartScreen() {
+  const navigate=useNavigate();
   const { state, dispatch:ctxDispatch } = useContext(Store);
   const {
     cart: { cartItems },
@@ -29,7 +30,10 @@ function CartScreen() {
       payload:  item , // Add product with selected quantity to cart
     });
   }
-
+  const checkOutHandler=()=>{
+    navigate('/sigin?redirect=/shipping');
+  }
+  
   return (
     <>
       <div>
