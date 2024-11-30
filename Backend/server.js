@@ -9,7 +9,7 @@ mongoose.connect(process.env.MONGODB_URI).then(()=>{
   console.log('connect to mongodb');
 })
 .catch((err)=>{
-  console.log(err);
+  console.log(err);s
 });
 
 const app = express();  
