@@ -1,26 +1,31 @@
-import express from "express"; 
-import cors from "cors"; 
-import data from "./data.js";  
+import express from "express";
+import cors from "cors";
+import data from "./data.js";
 import mongoose from "mongoose";
 
 import dotenv from "dotenv";
+import seedRouter from "./routes/seedRoutes.js";
 dotenv.config();
-mongoose.connect(process.env.MONGODB_URI).then(()=>{
-  console.log('connect to mongodb');
-})
-.catch((err)=>{
-  console.log(err);
-});
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("connect to mongodb");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-const app = express();  
+const app = express();
 
 // Enable CORS for all routes
-app.use(cors());  
+app.use(cors());
+
+app.use("/api/seed", seedRouter);
 
 // API endpoint to get products
 app.get("/api/products", (req, res) => {
   res.json(data.products);
-});  
+});
 
 // API endpoint to get a product by its slug
 app.get("/api/products/slug/:slug", (req, res) => {
