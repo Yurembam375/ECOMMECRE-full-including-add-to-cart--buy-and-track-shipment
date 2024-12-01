@@ -28,6 +28,9 @@ app.use("/api/seed", seedRouter);
 // Corrected route for products
 app.use("/api/products", productRouter);  // Fixed typo here
 
+app.use((err,req,res,next)=>{
+  res.status(500).send({message:err.message});
+});
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
