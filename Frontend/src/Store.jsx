@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer } from 'react';
 
 // Create context for the global state
 export const Store = createContext();
@@ -6,8 +6,8 @@ export const Store = createContext();
 // Initial state for the store
 const initialState = {
   cart: {
-    cartItems: localStorage.getItem("cartItems")
-      ? JSON.parse(localStorage.getItem("cartItems"))
+    cartItems: localStorage.getItem('cartItems')
+      ? JSON.parse(localStorage.getItem('cartItems'))
       : [],
   },
 };
@@ -15,31 +15,38 @@ const initialState = {
 // Reducer function to handle actions related to the cart
 function reducer(state, action) {
   switch (action.type) {
-    case "CART_ADD_ITEM":
+    case 'CART_ADD_ITEM':
       const newItem = action.payload;
-      const existItem = state.cart.cartItems.find(
-        (item) => item._id === newItem._id
-      );
+      // Check if the item already exists in the cart
+      const existItem = state.cart.cartItems.find((item) => item._id === newItem._id);
+
+      // Update cart items based on whether the item exists or not
       const cartItems = existItem
         ? state.cart.cartItems.map((item) =>
-            item._id === existItem._id ? newItem : item
+            item._id === existItem._id ? { ...item, quantity: item.quantity + newItem.quantity } : item
           )
         : [...state.cart.cartItems, newItem];
 
-      // Update localStorage before returning the new state
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      // Save updated cart items to localStorage
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
 
       return { ...state, cart: { ...state.cart, cartItems } };
 
-    case "CART_REMOVE_ITEM":
+    case 'CART_REMOVE_ITEM':
+      // Remove the item from cart based on the ID
       const updatedCartItems = state.cart.cartItems.filter(
         (item) => item._id !== action.payload._id
       );
 
-      // Update localStorage before returning the new state
-      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+      // Save updated cart items to localStorage
+      localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
 
       return { ...state, cart: { ...state.cart, cartItems: updatedCartItems } };
+
+    case 'CART_CLEAR':
+      // Clear all cart items
+      localStorage.setItem('cartItems', JSON.stringify([]));
+      return { ...state, cart: { ...state.cart, cartItems: [] } };
 
     default:
       return state;

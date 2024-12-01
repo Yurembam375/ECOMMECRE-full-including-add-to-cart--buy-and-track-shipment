@@ -1,8 +1,10 @@
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
-import { Store } from '../Store';
 import Rating from './Rating';
 import axios from 'axios';
+import { useContext } from 'react';
+import { Store } from '../Store';
 
 function Product(props) {
   const { product } = props;
@@ -10,20 +12,21 @@ function Product(props) {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     cart: { cartItems },
-  } = state
+  } = state;
 
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
-    // If the product is already in the cart, we don't need to fetch the data again
-    const stockCount = product.countInStock;
+    // Fetch product by ID instead of slug
+    const { data } = await axios.get(`/api/products/${product._id}`);
 
-    if (stockCount < quantity) {
+    if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
 
+    // Dispatch action to add item to cart
     ctxDispatch({
       type: 'CART_ADD_ITEM',
       payload: { ...item, quantity },
@@ -31,30 +34,31 @@ function Product(props) {
   };
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+    <Card className="border border-gray-300 rounded-lg overflow-hidden shadow-md transition-transform duration-300 ease-in-out transform hover:translate-y-1 hover:shadow-lg">
       <Link to={`/product/${product.slug}`}>
-        <img src={product.image} alt={product.name} className="w-full h-48 object-cover" />
+        <img
+          src={product.image}
+          className="w-full h-48 object-cover transition-opacity duration-300 hover:opacity-85"
+          alt={product.name}
+        />
       </Link>
-      <div className="p-4">
-        <Link to={`/product/${product.slug}`} className="text-xl font-semibold text-gray-900 hover:text-blue-500">
-          {product.name}
+      <Card.Body className="p-4 text-center">
+        <Link to={`/product/${product.slug}`}>
+          <Card.Title className="text-xl font-bold text-gray-800 mb-2">{product.name}</Card.Title>
         </Link>
         <Rating rating={product.rating} numReviews={product.numReviews} />
-        <p className="text-xl font-bold text-gray-800">${product.price}</p>
+        <Card.Text className="text-lg text-gray-600 mb-4">${product.price}</Card.Text>
         {product.countInStock === 0 ? (
-          <button className="w-full py-2 mt-4 bg-gray-300 text-gray-700 cursor-not-allowed rounded" disabled>
+          <Button variant="light" className="bg-gray-300 text-gray-600 cursor-not-allowed hover:bg-gray-300" disabled>
             Out of stock
-          </button>
+          </Button>
         ) : (
-          <button
-            onClick={() => addToCartHandler(product)}
-            className="w-full py-2 mt-4 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
-          >
+          <Button onClick={() => addToCartHandler(product)} className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
             Add to cart
-          </button>
+          </Button>
         )}
-      </div>
-    </div>
+      </Card.Body>
+    </Card>
   );
 }
 

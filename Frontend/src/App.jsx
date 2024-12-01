@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { Route, Routes, BrowserRouter, Link } from 'react-router-dom';
-import HomeScreen from './HomeScreen'; // Assuming you have a HomeScreen component
+import HomeScreen from './HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import { Store } from './Store'; // Store context for cart
 import CartScreen from './screens/CartScreen';
-import SignInScreen from './screens/SiginScreen';
+import SignInScreen from './screens/SiginScreen'; // Corrected import
+import { StoreProvider } from './Store'; // StoreProvider import
 
 function App() {
   const { state } = useContext(Store);
@@ -36,8 +37,8 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<HomeScreen />} />
-            <Route path='/cart' element={<CartScreen/>}/>
-            <Route path='/signin' element={<SignInScreen/>}/>
+            <Route path="/cart" element={<CartScreen />} />
+            <Route path="/signin" element={<SignInScreen />} />
             <Route path="/product/:slug" element={<ProductScreen />} />
           </Routes>
         </main>
