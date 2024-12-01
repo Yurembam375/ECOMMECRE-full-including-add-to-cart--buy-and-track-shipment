@@ -1,7 +1,23 @@
+import bcrypt from 'bcryptjs';  // Assuming you are using bcryptjs for hashing passwords
+
 const data = {
+  users: [
+    {
+      name: "Bana",
+      email: "bana@example.com",  // Changed email to ensure uniqueness
+      password: bcrypt.hashSync("123456"),
+      isAdmin: true,
+    },
+    {
+      name: "Jhon",
+      email: "jhon@example.com",  // Changed email to ensure uniqueness
+      password: bcrypt.hashSync("123456"),
+      isAdmin: false,
+    },
+  ],
   products: [
     {
-      name: "Nike Slim shirt",
+      name: "Nike Slim Shirt",
       slug: "nike-slim-shirt",
       category: "Shirts",
       image: "/images/p1.jpg", // 679px × 829px
@@ -10,7 +26,7 @@ const data = {
       brand: "Nike",
       rating: 4.5,
       numReviews: 10,
-      description: "high quality shirt",
+      description: "High quality shirt",
     },
     {
       name: "Adidas Fit Shirt",
@@ -22,7 +38,7 @@ const data = {
       brand: "Adidas",
       rating: 4.0,
       numReviews: 10,
-      description: "high quality product",
+      description: "High quality product",
     },
     {
       name: "Nike Slim Pant",
@@ -34,7 +50,7 @@ const data = {
       brand: "Nike",
       rating: 4.5,
       numReviews: 14,
-      description: "high quality product",
+      description: "High quality product",
     },
     {
       name: "Adidas Fit Pant",
@@ -43,10 +59,10 @@ const data = {
       image: "/images/p4.jpg",
       price: 65,
       countInStock: 5,
-      brand: "Puma",
+      brand: "Adidas",  // Corrected brand to Adidas
       rating: 4.5,
       numReviews: 10,
-      description: "high quality product",
+      description: "High quality product",
     },
   ],
 };

@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { Store } from '../Store';
 
 function Product(props) {
+ 
   const { product } = props;
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -15,11 +16,11 @@ function Product(props) {
   } = state;
 
   const addToCartHandler = async (item) => {
+    const { data } = await axios.get(`/api/products/${item._id}`);
     const existItem = cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
-    // Fetch product by ID instead of slug
-    const { data } = await axios.get(`/api/products/${product._id}`);
+
 
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
