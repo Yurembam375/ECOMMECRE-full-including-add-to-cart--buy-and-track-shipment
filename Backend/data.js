@@ -4,13 +4,13 @@ const data = {
   users: [
     {
       name: "Bana",
-      email: "bana@example.com",  // Changed email to ensure uniqueness
+      email: "admin@example.com",  // Changed email to ensure uniqueness
       password: bcrypt.hashSync("123456"),
       isAdmin: true,
     },
     {
       name: "Jhon",
-      email: "jhon@example.com",  // Changed email to ensure uniqueness
+      email: "user@example.com",  // Changed email to ensure uniqueness
       password: bcrypt.hashSync("123456"),
       isAdmin: false,
     },
