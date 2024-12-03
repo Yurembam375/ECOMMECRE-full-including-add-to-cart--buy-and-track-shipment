@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation, Link } from "react-router-dom";
+import axios from "axios"; // Ensure axios is imported
 
 function SignInScreen() {
   const { search } = useLocation();
@@ -9,18 +10,22 @@ function SignInScreen() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "(`http://localhost:4000/api/users/signin",
+        " http://localhost:4000/api/users/signin", // Fixed the URL by removing extra backticks
         {
           email,
           password,
         }
       );
       console.log(data);
-    } catch (err) {}
+      // You can redirect here if necessary
+    } catch (err) {
+      console.error(err); // Log error for debugging
+    }
   };
 
   return (
