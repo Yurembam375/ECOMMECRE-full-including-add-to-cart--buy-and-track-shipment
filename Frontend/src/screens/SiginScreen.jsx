@@ -7,9 +7,21 @@ function SignInScreen() {
   const redirectInUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectInUrl ? redirectInUrl : "/";
 
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "(`http://localhost:4000/api/users/signin",
+        {
+          email,
+          password,
+        }
+      );
+      console.log(data);
+    } catch (err) {}
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -20,7 +32,7 @@ function SignInScreen() {
 
         <h2 className="text-2xl font-semibold mb-4 text-center">Sign In</h2>
 
-        <form>
+        <form onSubmit={submitHandler}>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -58,15 +70,14 @@ function SignInScreen() {
           </div>
 
           <button
-  type="submit"
-  className="w-full py-2 px-4 bg-orange-500 text-white font-semibold rounded-md 
+            type="submit"
+            className="w-full py-2 px-4 bg-orange-500 text-white font-semibold rounded-md 
              hover:bg-orange-600 
              focus:ring-orange-500
              transition-transform hover:scale-110 duration-300"
->
-  Sign In
-</button>
-
+          >
+            Sign In
+          </button>
         </form>
 
         <div className="mt-4 text-center">
