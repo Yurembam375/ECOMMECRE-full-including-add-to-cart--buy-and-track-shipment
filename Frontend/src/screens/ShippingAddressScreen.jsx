@@ -10,6 +10,16 @@ function ShippingAddressScreen() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    ctxDispatch({
+        type:'SAVE_SHIPPING_ADDRESS',
+        payload: { fullname, address, city, postalcode, country },
+
+    });
+    localStorage.setItem(
+        'shppingAddress',JSON.stringify({
+            fullname, address, city, postalcode, country
+        })
+    )
   }
 
   return (
