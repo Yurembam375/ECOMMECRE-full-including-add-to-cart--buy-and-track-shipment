@@ -36,7 +36,7 @@ function App() {
 
             {/* Cart Link and User Dropdown */}
             <div className="flex items-center space-x-6">
-              <Link to="/cart" className="text-lg text-yellow-500 hover:text-yellow-300 transition">
+              <Link to="/cart" className="text-lg text-yellow-500 hover:text-yellow-300 ">
                 Cart{' '}
                 {cart.cartItems.length > 0 && (
                   <span className="font-bold bg-red-700 text-white rounded-full px-3 py-1 text-sm">
@@ -49,7 +49,7 @@ function App() {
                 <div className="relative">
                   {/* User Profile Button */}
                   <button
-                    className="flex items-center space-x-2 text-white bg-blue-600 hover:bg-blue-700 rounded px-4 py-2"
+                    className="flex items-center space-x-2 text-white bg-yellow-600 hover:bg-yellow-700  transition-transform hover:scale-110 duration-300 rounded-lg px-2 "
                     onClick={toggleDropdown} // Toggle dropdown on click
                   >
                     <span>{userInfo.name}</span> {/* Displaying User's Name */}
