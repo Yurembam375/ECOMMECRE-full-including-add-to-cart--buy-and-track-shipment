@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Ensure axios is imported
@@ -12,6 +12,7 @@ function SignInScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { state, dispatch: ctxDispatch } = useContext(Store);
+  const {userInfo}=state;
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -32,6 +33,11 @@ function SignInScreen() {
     alert('invalid Email or Password')
     }
   };
+  useEffect(()=>{
+    if(userInfo){
+      navigate(redirect);
+    }
+  },[navigate,redirect,userInfo]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
