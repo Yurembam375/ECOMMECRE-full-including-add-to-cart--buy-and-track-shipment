@@ -4,6 +4,7 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Ensure axios is imported
 import {Store} from "../Store.jsx";
 import { toast } from "react-toastify";
+import { getError } from "./util.jsx";
 function SignInScreen() {
   const navigate=useNavigate();
   const { search } = useLocation();
@@ -31,7 +32,7 @@ function SignInScreen() {
 
       // You can redirect here if necessary
     } catch (err) {
-    toast.error('invalid Email or Password')
+    toast.error(getError(err));
     }
   };
   useEffect(()=>{
