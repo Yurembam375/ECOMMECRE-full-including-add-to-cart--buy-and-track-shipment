@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
+import { Store } from '../Store';
 
 function ShippingAddressScreen() {
   const [fullname, setFullname] = useState('');
@@ -7,7 +9,8 @@ function ShippingAddressScreen() {
   const [city, setCity] = useState('');
   const [postalcode, setPostalcode] = useState('');
   const [country, setCountry] = useState('');
-
+const navigate=useNavigate();
+const {state,dispatch:ctxDispatch}=useContext(Store);
   const submitHandler = (e) => {
     e.preventDefault();
     ctxDispatch({
@@ -19,7 +22,9 @@ function ShippingAddressScreen() {
         'shppingAddress',JSON.stringify({
             fullname, address, city, postalcode, country
         })
-    )
+    );
+    navigate('/payment');
+    
   }
 
   return (
