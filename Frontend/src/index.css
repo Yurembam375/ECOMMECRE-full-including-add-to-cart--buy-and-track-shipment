@@ -39,4 +39,11 @@ main{
 .sa{
   font-weight: bold;
   text-decoration: none
+}/* Custom Tailwind Config or global styles (if needed) */
+.bg-gray-800 {
+  background-color: #2d3748;
+}
+
+.text-yellow-500 {
+  color: #fbbf24;
 }
