@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Ensure axios is imported
 import {Store} from "../Store.jsx";
+import { toast } from "react-toastify";
 function SignInScreen() {
   const navigate=useNavigate();
   const { search } = useLocation();
@@ -30,7 +31,7 @@ function SignInScreen() {
 
       // You can redirect here if necessary
     } catch (err) {
-    alert('invalid Email or Password')
+    toast.error('invalid Email or Password')
     }
   };
   useEffect(()=>{
