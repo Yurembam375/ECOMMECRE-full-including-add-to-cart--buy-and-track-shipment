@@ -1,31 +1,45 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 
 function ShippingAddressScreen() {
+  const navigate = useNavigate();
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { userInfo, cart: { shippingAddress } } = state;
+
+  // Declare state variables
   const [fullname, setFullname] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [postalcode, setPostalcode] = useState('');
   const [country, setCountry] = useState('');
-const navigate=useNavigate();
-const {state,dispatch:ctxDispatch}=useContext(Store);
+
+  // Redirect user if they are not signed in
+  useEffect(() => {
+    if (!userInfo) {
+      navigate('/signin?redirect=/shipping');
+    } else if (shippingAddress) {
+      setFullname(shippingAddress.fullname || '');
+      setAddress(shippingAddress.address || '');
+      setCity(shippingAddress.city || '');
+      setPostalcode(shippingAddress.postalcode || '');
+      setCountry(shippingAddress.country || '');
+    }
+  }, [userInfo, navigate, shippingAddress]);
+
+  // Submit handler for form
   const submitHandler = (e) => {
     e.preventDefault();
     ctxDispatch({
-        type:'SAVE_SHIPPING_ADDRESS',
-        payload: { fullname, address, city, postalcode, country },
-
+      type: 'SAVE_SHIPPING_ADDRESS',
+      payload: { fullname, address, city, postalcode, country },
     });
     localStorage.setItem(
-        'shppingAddress',JSON.stringify({
-            fullname, address, city, postalcode, country
-        })
+      'shippingAddress', JSON.stringify({ fullname, address, city, postalcode, country })
     );
     navigate('/payment');
-    
-  }
+  };
 
   return (
     <>
