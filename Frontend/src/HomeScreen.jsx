@@ -36,14 +36,14 @@ function HomeScreen() {
       }
     };
     fetchData();
-  }, []);  // Ensure it only runs once when the component is mounted.
+  }, []);
 
   return (
     <div>
       <Helmet>
         <title>Laitonjam Collection</title>
       </Helmet>
-      <h1 className="text-3xl font-bold mb-6">List of Products</h1>
+      <h1>List of Products</h1>
       {loading ? (
         <Loading />
       ) : error ? (

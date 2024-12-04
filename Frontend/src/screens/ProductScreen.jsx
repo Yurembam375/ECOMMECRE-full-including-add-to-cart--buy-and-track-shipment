@@ -23,7 +23,7 @@ const reducer = (state, action) => {
 };
 
 function ProductScreen() {
-  const navigate = useNavigate();
+  const navigate=useNavigate();
   const { slug } = useParams(); // Extract product slug from URL params
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
     product: {}, // Initialize product as an empty object
