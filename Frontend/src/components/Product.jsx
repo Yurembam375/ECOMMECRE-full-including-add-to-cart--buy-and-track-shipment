@@ -1,5 +1,3 @@
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import Rating from './Rating';
 import axios from 'axios';
@@ -7,7 +5,6 @@ import { useContext } from 'react';
 import { Store } from '../Store';
 
 function Product(props) {
- 
   const { product } = props;
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -16,18 +13,13 @@ function Product(props) {
   } = state;
 
   const addToCartHandler = async (item) => {
-    const { data } = await axios.get(`/api/products/${item._id}`);
     const existItem = cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-
-
-
+    const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
-
-    // Dispatch action to add item to cart
     ctxDispatch({
       type: 'CART_ADD_ITEM',
       payload: { ...item, quantity },
@@ -35,31 +27,30 @@ function Product(props) {
   };
 
   return (
-    <Card className="border border-gray-300 rounded-lg overflow-hidden shadow-md transition-transform duration-300 ease-in-out transform hover:translate-y-1 hover:shadow-lg">
+    <div className="bg-white rounded-lg shadow-md">
       <Link to={`/product/${product.slug}`}>
-        <img
-          src={product.image}
-          className="w-full h-48 object-cover transition-opacity duration-300 hover:opacity-85"
-          alt={product.name}
-        />
+        <img src={product.image} className="w-full h-64 object-cover rounded-t-lg" alt={product.name} />
       </Link>
-      <Card.Body className="p-4 text-center">
+      <div className="p-4">
         <Link to={`/product/${product.slug}`}>
-          <Card.Title className="text-xl font-bold text-gray-800 mb-2">{product.name}</Card.Title>
+          <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
         </Link>
         <Rating rating={product.rating} numReviews={product.numReviews} />
-        <Card.Text className="text-lg text-gray-600 mb-4">${product.price}</Card.Text>
+        <p className="text-xl font-bold text-gray-900">${product.price}</p>
         {product.countInStock === 0 ? (
-          <Button variant="light" className="bg-gray-300 text-gray-600 cursor-not-allowed hover:bg-gray-300" disabled>
+          <button className="w-full bg-gray-300 text-gray-600 py-2 rounded-md cursor-not-allowed" disabled>
             Out of stock
-          </Button>
+          </button>
         ) : (
-          <Button onClick={() => addToCartHandler(product)} className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+          <button
+            onClick={() => addToCartHandler(product)}
+            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+          >
             Add to cart
-          </Button>
+          </button>
         )}
-      </Card.Body>
-    </Card>
+      </div>
+    </div>
   );
 }
 
