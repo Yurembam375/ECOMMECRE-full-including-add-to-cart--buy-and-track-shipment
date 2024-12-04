@@ -10,7 +10,7 @@ seedRouter.get('/', async (req, res) => {
     const createdProducts = await Product.insertMany(data.products);
     await User.deleteMany({});  // Use deleteMany instead of remove
     const createdUser = await User.insertMany(data.users);
-    res.status(201).json({ message: 'Products seeded successfully', createdProducts,createdUser });
+    res.status(201).json({ message: 'Products seeded successfully', createdProducts, createdUser });
 });
 
 export default seedRouter;

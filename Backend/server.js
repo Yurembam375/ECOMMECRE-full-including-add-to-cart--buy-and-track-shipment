@@ -20,7 +20,7 @@ mongoose
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
 // Enable CORS for all routes
 app.use(cors());
@@ -31,9 +31,10 @@ app.use("/api/seed", seedRouter);
 // Corrected route for products
 app.use("/api/products", productRouter);  // Fixed typo here
 app.use("/api/users", UserRouter); 
-app.use((err,req,res,next)=>{
-  res.status(500).send({message:err.message});
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message });
 });
+
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
