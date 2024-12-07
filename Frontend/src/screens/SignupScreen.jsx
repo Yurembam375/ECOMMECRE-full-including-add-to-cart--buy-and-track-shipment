@@ -145,7 +145,7 @@ function SignUpScreen() {
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
             <Link
-              to={` http://localhost:4000/api/users/signin`}
+              to={`/signin?redirect=${redirect}`}
               className="text-blue-500 hover:text-blue-700"
             >
               Sign In
