@@ -11,16 +11,17 @@ const initialState = {
       : null,
   },
   cart: {
-    shppingAddress:localStorage.getItem('shppingAddress')
-    ? JSON.parse(localStorage.getItem("cartItems"))
-    : [],
+    shippingAddress: localStorage.getItem('shippingAddress')
+      ? JSON.parse(localStorage.getItem('shippingAddress'))
+      : {},
+    paymentMethod: localStorage.getItem('paymentMethod') || '',
     cartItems: localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
       : [],
   },
 };
 
-// Reducer function to handle actions related to the cart
+// Reducer function to handle actions related to the cart and user
 function reducer(state, action) {
   switch (action.type) {
     case "CART_ADD_ITEM":
@@ -62,16 +63,23 @@ function reducer(state, action) {
 
     case "USER_SIGNIN":
       return { ...state, userInfo: action.payload };
+
     case "USER_SIGNOUT":
-      return { ...state, userInfo: null ,cart:{
-        cartItems: [],
-        shppingAddress:{}
-      }};
+      return { 
+        ...state, 
+        userInfo: null,
+        cart: {
+          cartItems: [],
+          shippingAddress: {},
+          paymentMethod: '',
+        }
+      };
+
     case "SAVE_SHIPPING_ADDRESS":
-      return { ...state, cart:{
-        ...state.cart,
-        shppingAddress:action.payload,
-      } };
+      return { ...state, cart: { ...state.cart, shippingAddress: action.payload } };
+
+    case "SAVE_PAYMENT_METHOD":
+      return { ...state, cart: { ...state.cart, paymentMethod: action.payload } };
 
     default:
       return state;

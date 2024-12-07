@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ShippingAddressScreen from "./screens/ShippingAddressScreen.jsx";
 import SignupScreen from "./screens/SignupScreen.jsx";
+import PaymentMethodScreen from "./screens/PaymentMethodScreen.jsx"; // Corrected import
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -21,7 +22,8 @@ function App() {
   const signOutHandler = () => {
     ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
-    toast.success("Successfully signed out!"); // Show toast on sign-out
+    localStorage.removeItem("shippingAddress");
+    localStorage.removeItem("paymentMethod");
   };
 
   // Toggle dropdown visibility
@@ -187,9 +189,9 @@ function App() {
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/signin" element={<SignInScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
-              <Route path="/shipping" element={<ShippingAddressScreen/>}/>
+              <Route path="/shipping" element={<ShippingAddressScreen />} />
+              <Route path="/payment" element={<PaymentMethodScreen />} /> {/* Fixed typo here */}
               <Route path="/product/:slug" element={<ProductScreen />} />
-              
             </Routes>
           </div>
         </main>
