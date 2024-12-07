@@ -8,11 +8,11 @@ import UserRouter from "./routes/userRoutes.js";
 
 dotenv.config();
 
-// Connect to MongoDB
+// Connect to MongoDB (local instance)
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB locally");
   })
   .catch((err) => {
     console.error("Error connecting to MongoDB:", err);
@@ -30,7 +30,9 @@ app.use("/api/seed", seedRouter);
 
 // Corrected route for products
 app.use("/api/products", productRouter);  // Fixed typo here
-app.use("/api/users", UserRouter); 
+app.use("/api/users", UserRouter);
+
+// Error handling middleware
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
