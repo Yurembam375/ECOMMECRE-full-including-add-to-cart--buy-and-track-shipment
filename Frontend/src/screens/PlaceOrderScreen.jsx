@@ -1,41 +1,37 @@
 import React, { useContext, useEffect, useReducer } from "react";
-import CheckoutSteps from "../components/CheckoutSteps";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import { Store } from "../Store";
 import { getError } from "./util.jsx";
 import toast from "react-toastify";
-import { useReducer } from "react";
-import {Loading} from "../components/Loading.jsx"
 import axios from 'axios';
+import CheckoutSteps from "../components/CheckoutSteps";
+import { Loading } from "../components/Loading.jsx";
+
 const reducer = (state, action) => {
-  switch ((action, type)) {
+  switch (action.type) {
     case "CREATE_REQUEST":
       return { ...state, loading: true };
     case "CREATE_SUCCESS":
-      return { ...state, loading: true };
+      return { ...state, loading: false };
     case "CREATE_FAIL":
-      return { state, loading: true };
+      return { ...state, loading: false };
     default:
       return state;
   }
 };
+
 function PlaceOrderScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
   const navigate = useNavigate();
-  const [{ loading}, dispatch] = useReducer(reducer, {
-    loading: false,
- 
-  });
+  const [{ loading }, dispatch] = useReducer(reducer, { loading: false });
 
   // Helper function to round numbers to two decimal places
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
 
   // Calculate cart prices
-  cart.itemsPrice = round2(
-    cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
-  );
+  cart.itemsPrice = round2(cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0));
   cart.shippingPrice = cart.itemsPrice > 0 ? round2(10) : 0;
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
@@ -48,10 +44,10 @@ function PlaceOrderScreen() {
   }, [cart, navigate]);
 
   // Handler to place the order
-  const PlaceOrderHandler = async () => {
+  const placeOrderHandler = async () => {
     try {
       ctxDispatch({ type: "CREATE_REQUEST" });
-      const response = await axios.post(
+      const { data } = await axios.post(
         "/api/orders",
         {
           orderItems: cart.cartItems,
@@ -63,18 +59,15 @@ function PlaceOrderScreen() {
           totalPrice: cart.totalPrice,
         },
         {
-          headers: {
-            authorization: `Bearer ${userInfo.token}`,
-          },
+          headers: { authorization: `Bearer ${userInfo.token}` },
         }
       );
       ctxDispatch({ type: 'CART_CLEAR' });
       dispatch({ type: 'CREATE_SUCCESS' });
       localStorage.removeItem('cartItems');
       navigate(`/order/${data.order._id}`);
-    }
     } catch (err) {
-      dispatch({ err: "CREATE_FAIL" });
+      dispatch({ type: 'CREATE_FAIL' });
       toast.error(getError(err));
     }
   };
@@ -96,21 +89,16 @@ function PlaceOrderScreen() {
             <div className="space-y-4">
               <div className="flex flex-col">
                 <strong className="text-lg">Name:</strong>
-                <span className="text-gray-700">
-                  {cart.shippingAddress.fullname}
-                </span>
+                <span className="text-gray-700">{cart.shippingAddress.fullname}</span>
               </div>
               <div className="flex flex-col">
                 <strong className="text-lg">Address:</strong>
                 <span className="text-gray-700">
-                  {cart.shippingAddress.address}, {cart.shippingAddress.city},{" "}
-                  {cart.shippingAddress.postalCode},{" "}
-                  {cart.shippingAddress.country}
+                  {cart.shippingAddress.address}, {cart.shippingAddress.city}, 
+                  {cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
                 </span>
               </div>
-              <Link to="/shipping" className="text-blue-600 hover:underline">
-                Edit
-              </Link>
+              <Link to="/shipping" className="text-blue-600 hover:underline">Edit</Link>
             </div>
           </div>
 
@@ -122,9 +110,7 @@ function PlaceOrderScreen() {
                 <strong>Method:</strong>
                 <span className="text-gray-700">{cart.paymentMethod}</span>
               </div>
-              <Link to="/payment" className="text-blue-600 hover:underline">
-                Edit
-              </Link>
+              <Link to="/payment" className="text-blue-600 hover:underline">Edit</Link>
             </div>
           </div>
 
@@ -133,19 +119,13 @@ function PlaceOrderScreen() {
             <h2 className="text-2xl font-semibold mb-4">Items</h2>
             <div>
               {cart.cartItems.map((item) => (
-                <div
-                  key={item._id}
-                  className="flex justify-between items-center mb-4"
-                >
+                <div key={item._id} className="flex justify-between items-center mb-4">
                   <img
                     src={item.image}
                     alt={item.name}
                     className="w-20 h-20 object-cover"
                   />
-                  <Link
-                    to={`/product/${item.slug}`}
-                    className="text-blue-600 hover:underline"
-                  >
+                  <Link to={`/product/${item.slug}`} className="text-blue-600 hover:underline">
                     {item.name}
                   </Link>
                   <div className="text-gray-700">
@@ -153,9 +133,7 @@ function PlaceOrderScreen() {
                   </div>
                 </div>
               ))}
-              <Link to="/cart" className="text-blue-600 hover:underline">
-                Edit
-              </Link>
+              <Link to="/cart" className="text-blue-600 hover:underline">Edit</Link>
             </div>
           </div>
         </div>
@@ -184,16 +162,16 @@ function PlaceOrderScreen() {
 
           <button
             type="button"
-            onClick={PlaceOrderHandler}
+            onClick={placeOrderHandler}
             disabled={cart.cartItems.length === 0}
             className="w-full bg-blue-600 text-white py-2 mt-6 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
           >
             Place Order
           </button>
-          
         </div>
-        {loading && <Loading></Loading>}
       </div>
+
+      {loading && <Loading />}
     </div>
   );
 }
