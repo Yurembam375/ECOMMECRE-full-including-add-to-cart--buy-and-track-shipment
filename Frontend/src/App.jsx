@@ -12,7 +12,8 @@ import ShippingAddressScreen from "./screens/ShippingAddressScreen.jsx";
 import SignupScreen from "./screens/SignupScreen.jsx";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen.jsx"; // Corrected import
 import PlaceOrderScreen from "./screens/PlaceOrderScreen.jsx";
-importfunction App() {
+
+function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
